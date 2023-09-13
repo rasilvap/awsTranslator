@@ -18,7 +18,7 @@ public class TranslatorController {
     }
 
     @GetMapping("/translator")
-    private ResponseEntity<TranslatorOutput> getCustomer(@RequestBody TranslatorInput translatorInput) {
+    private ResponseEntity<TranslatorOutput> translateText(@RequestBody TranslatorInput translatorInput) {
         TranslatorOutput translatorOutput = translatorService.translateText(translatorInput);
         return ResponseEntity.ok(translatorOutput);
     }
