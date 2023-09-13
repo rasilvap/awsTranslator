@@ -9,7 +9,7 @@ public class AmazonTranslateExceptionHandler {
 
     @ExceptionHandler(AmazonTranslateException.class)
     public ResponseEntity<String> handleAmazonTranslateException(AmazonTranslateException ex) {
-        String errorMessage = "El token de seguridad incluido en la solicitud ha caducado.";
+        String errorMessage = "The security token included in the request has expired.";
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 }
