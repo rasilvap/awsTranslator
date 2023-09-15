@@ -37,3 +37,8 @@ You can use the next body in Postman, pointing to the Url: http://localhost:8080
 "timestamp": "2023-09-13T20:46:34.698+00:00"
 }
 ```
+
+#### troubleshooting
+
+You need to do a aws login sso and to refresh your credentials and then update them in the 
+./awas/credentials file.
