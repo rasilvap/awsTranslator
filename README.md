@@ -40,5 +40,13 @@ You can use the next body in Postman, pointing to the Url: http://localhost:8080
 
 #### troubleshooting
 
-You need to do a aws login sso and to refresh your credentials and then update them in the 
-./awas/credentials file.
+You need to do a `aws sso login  --profile <profile-name>` and to refresh your credentials and then update them in the 
+`./awas/credentials` file.
+
+You can use `aws configure list-profiles` to know you current profile.
+
+Then sign in to the IAM Identity center.
+
+The format of the URL is `https://d-xxxxxxxxxx.awsapps.com/startor` your_subdomain.awsapps.com/start and
+then go to the AWS Account/Command line programmatic access and copy the new credentials to update in your
+`./aws/credentials` file.
