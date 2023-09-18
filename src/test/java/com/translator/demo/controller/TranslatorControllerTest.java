@@ -1,5 +1,6 @@
 package com.translator.demo.controller;
 
+import com.translator.demo.exception.TranslatorException;
 import com.translator.demo.model.TranslatorInput;
 import com.translator.demo.model.TranslatorOutput;
 import com.translator.demo.service.TranslatorService;
@@ -12,12 +13,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -60,4 +63,28 @@ class TranslatorControllerTest {
                         "\"timestamp\": \"2023-01-01T10:30:00\"\n" +
                         "}")));
     }
+
+    @Test
+    public void testTranslatorEndpointForbiddenWhenTextIsNull() throws Exception {
+        String expectedErrorMessage = "There is an error in the translation: source, target, and text shouldn't be empty or null.";
+
+
+        when(translatorService.translateText(any(TranslatorInput.class))).thenThrow(new TranslatorException("source, target, and text shouldn't be empty or null."));
+
+        MvcResult result = mockMvc.perform(get("/translator")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\n" +
+                                "\"target\": \"es\",\n" +
+                                "\"text\": \"Hello world\"\n" +
+                                "}")
+                )
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+
+        // Comparar el mensaje de error esperado con la respuesta
+        assertTrue(responseContent.contains(expectedErrorMessage));
+    }
+
 }
