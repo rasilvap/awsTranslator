@@ -65,7 +65,7 @@ class TranslatorControllerTest {
     }
 
     @Test
-    public void testTranslatorEndpointForbiddenWhenTextIsNull() throws Exception {
+    public void testTranslatorEndpointBadRequestWhenTextIsNull() throws Exception {
         String expectedErrorMessage = "There is an error in the translation: source, target, and text shouldn't be empty or null.";
 
 
