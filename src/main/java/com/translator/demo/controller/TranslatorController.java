@@ -1,5 +1,6 @@
 package com.translator.demo.controller;
 
+import com.translator.demo.exception.TranslatorException;
 import com.translator.demo.service.TranslatorService;
 import com.translator.demo.model.TranslatorInput;
 import com.translator.demo.model.TranslatorOutput;
@@ -18,7 +19,7 @@ public class TranslatorController {
     }
 
     @GetMapping("/translator")
-    private ResponseEntity<TranslatorOutput> translateText(@RequestBody TranslatorInput translatorInput) {
+    private ResponseEntity<TranslatorOutput> translateText(@RequestBody TranslatorInput translatorInput) throws TranslatorException {
         TranslatorOutput translatorOutput = translatorService.translateText(translatorInput);
         return ResponseEntity.ok(translatorOutput);
     }
