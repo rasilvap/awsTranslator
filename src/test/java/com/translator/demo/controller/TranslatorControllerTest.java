@@ -40,7 +40,7 @@ class TranslatorControllerTest {
     }
 
     @Test
-    public void testMutantEndpointSuccess() throws Exception {
+    public void testTranslatorEndpointSuccess() throws Exception {
         TranslatorOutput expectedOutput =  new TranslatorOutput("en", "es", "Hola mundo", LocalDateTime.of(2023, 1, 1, 10, 30));
         when(translatorService.translateText(any(TranslatorInput.class))).thenReturn(expectedOutput);
 
