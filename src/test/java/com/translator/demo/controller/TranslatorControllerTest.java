@@ -20,7 +20,8 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;;
+;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -83,7 +84,50 @@ class TranslatorControllerTest {
 
         String responseContent = result.getResponse().getContentAsString();
 
-        // Comparar el mensaje de error esperado con la respuesta
+        assertTrue(responseContent.contains(expectedErrorMessage));
+    }
+
+    @Test
+    public void testTranslatorEndpointBadRequestWhenSourceIsNull() throws Exception {
+        String expectedErrorMessage = "There is an error in the translation: source, target, and text shouldn't be empty or null.";
+
+
+        when(translatorService.translateText(any(TranslatorInput.class))).thenThrow(new TranslatorException("source, target, and text shouldn't be empty or null."));
+
+        MvcResult result = mockMvc.perform(get("/translator")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\n" +
+                                "\"target\": \"es\",\n" +
+                                "\"text\": \"Hello world\"\n" +
+                                "}")
+                )
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+
+        assertTrue(responseContent.contains(expectedErrorMessage));
+    }
+
+    @Test
+    public void testTranslatorEndpointBadRequestWhenTargetIsNull() throws Exception {
+        String expectedErrorMessage = "There is an error in the translation: source, target, and text shouldn't be empty or null.";
+
+
+        when(translatorService.translateText(any(TranslatorInput.class))).thenThrow(new TranslatorException("source, target, and text shouldn't be empty or null."));
+
+        MvcResult result = mockMvc.perform(get("/translator")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\n" +
+                                "\"source\": \"en\",\n" +
+                                "\"text\": \"Hello world\"\n" +
+                                "}")
+                )
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+
         assertTrue(responseContent.contains(expectedErrorMessage));
     }
 
