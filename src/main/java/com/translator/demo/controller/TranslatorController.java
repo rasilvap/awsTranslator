@@ -4,7 +4,6 @@ import com.translator.demo.exception.TranslatorException;
 import com.translator.demo.service.TranslatorService;
 import com.translator.demo.model.TranslatorInput;
 import com.translator.demo.model.TranslatorOutput;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
