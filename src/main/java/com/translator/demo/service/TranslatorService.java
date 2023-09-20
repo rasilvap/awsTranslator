@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TranslatorService {
@@ -25,25 +26,25 @@ public class TranslatorService {
             throw new TranslatorException("translatorInput shouldn't be null.");
         }
 
-        String source = translatorInput.source();
-        String target = translatorInput.target();
-        String text = translatorInput.text();
+        Optional<String> source = Optional.ofNullable(translatorInput.source());
+        Optional <String> target = Optional.ofNullable(translatorInput.target());
+        Optional<String> text =  Optional.ofNullable(translatorInput.text());
 
         if (isEmpty(source) || isEmpty(target) || isEmpty(text)) {
             throw new TranslatorException("source, target and shouldn't be empty or null.");
         }
 
         TranslateTextRequest request = new TranslateTextRequest()
-                .withText(text)
-                .withSourceLanguageCode(source)
-                .withTargetLanguageCode(target);
+                .withText(text.get())
+                .withSourceLanguageCode(source.get())
+                .withTargetLanguageCode(target.get());
         TranslateTextResult result = amazonTranslate.translateText(request);
         TranslatorOutput translatorOutput = new TranslatorOutput(translatorInput.source(),
                 translatorInput.target(), result.getTranslatedText(), LocalDateTime.now());
         return translatorOutput;
     }
 
-    private boolean isEmpty(String str) {
-        return str == null || str.trim().isEmpty();
+    private boolean isEmpty(Optional<String> str) {
+        return str.map(s -> s.trim().isEmpty()).orElse(true);
     }
 }

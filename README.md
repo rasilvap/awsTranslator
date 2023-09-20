@@ -40,7 +40,7 @@ You can use the next body in Postman, pointing to the Url: http://localhost:8080
 
 #### troubleshooting
 
-You need to do a `aws sso login  --profile <profile-name>` and to refresh your credentials and then update them in the 
+After some time, you would need to do a `aws sso login  --profile <profile-name>` and to refresh your credentials and then update them in the 
 `./awas/credentials` file.
 
 You can use `aws configure list-profiles` to know you current profile.

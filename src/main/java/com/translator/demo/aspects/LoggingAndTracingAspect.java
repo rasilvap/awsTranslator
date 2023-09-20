@@ -31,5 +31,4 @@ public class LoggingAndTracingAspect {
         String methodName = joinPoint.getSignature().getName();
         logger.error("Exception in method " + methodName + ": " + exception.getMessage());
     }
-
 }
