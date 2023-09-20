@@ -37,7 +37,7 @@ class TranslatorServiceTest {
     }
 
     @Test
-    public void translateText_ValidInput_ReturnsTranslatedText1() throws TranslatorException {
+    public void translateText_InvalidInputText_ThrowsException() throws TranslatorException {
         TranslatorInput input = new TranslatorInput("es", "en", null);
 
         TranslatorException exception = assertThrows(TranslatorException.class, () -> {
@@ -48,7 +48,29 @@ class TranslatorServiceTest {
     }
 
     @Test
-    public void translateText_ValidInput_ReturnsTranslatedText2() throws TranslatorException {
+    public void translateText_InvalidInputSource_ThrowsException() throws TranslatorException {
+        TranslatorInput input = new TranslatorInput("", "en", "Hello");
+
+        TranslatorException exception = assertThrows(TranslatorException.class, () -> {
+            translatorService.translateText(input);
+        });
+
+        assertEquals("source, target and shouldn't be empty or null.", exception.getMessage());
+    }
+
+    @Test
+    public void translateText_InvalidInputTarget_ThrowsException() throws TranslatorException {
+        TranslatorInput input = new TranslatorInput("es", null, "Hello");
+
+        TranslatorException exception = assertThrows(TranslatorException.class, () -> {
+            translatorService.translateText(input);
+        });
+
+        assertEquals("source, target and shouldn't be empty or null.", exception.getMessage());
+    }
+
+    @Test
+    public void translateText_InputIsNull_ThrowsException() throws TranslatorException {
         TranslatorInput input = null;
 
         TranslatorException exception = assertThrows(TranslatorException.class, () -> {
